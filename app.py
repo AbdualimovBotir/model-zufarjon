@@ -1,14 +1,10 @@
 import streamlit as st
 import pickle
-import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Model va vectorizerni yuklash
+# Model va vectorizerni yuklash (birgalikda saqlanadi)
 with open('sentiment_model.pkl', 'rb') as f:
-    model = pickle.load(f)
-
-# Tfidf vectorizerni yuklash
-vectorizer = TfidfVectorizer(max_features=5000)
+    model, vectorizer = pickle.load(f)  # Model va vectorizer birgalikda saqlangan
 
 # Web ilovasi interfeysi
 st.title('Sentiment Analysis Web App')
@@ -23,7 +19,7 @@ user_input = st.text_area("Enter a movie review:")
 
 if st.button('Predict'):
     if user_input:
-        # Matnni vektorlashtirish
+        # Matnni vektorlashtirish (fit bo'lgan vectorizer bilan)
         input_tfidf = vectorizer.transform([user_input])
         
         # Natijani bashorat qilish
